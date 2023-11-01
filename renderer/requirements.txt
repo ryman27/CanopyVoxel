@@ -1,0 +1,9 @@
+moderngl~=5.8.2
+numpy~=1.26.1
+pygame~=2.5.2
+PyGLM
+
+
+
+
+open3d~=0.17.0

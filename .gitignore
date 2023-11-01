@@ -1,0 +1,4 @@
+*.ply
+*.obj
+/.idea/*
+**/__pycache__/*
