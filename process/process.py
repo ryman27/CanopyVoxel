@@ -1,7 +1,7 @@
 import numpy as np
 import open3d as o3d
 
-point_cloud_file_name = 'pointcloud-ds-2.ply'
+point_cloud_file_name = 'pointcloud_rotated.ply'
 qsm_mesh_file_name = 'qsm.ply'
 
 if __name__ == "__main__":
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     point_cloud_size = np.max(point_cloud[:, :3], axis=0) - np.min(point_cloud[:, :3], axis=0)
 
-    voxel_size_proportion = 0.01
+    voxel_size_proportion = 0.005
 
     voxel_size = np.max(point_cloud_size) * voxel_size_proportion
 
