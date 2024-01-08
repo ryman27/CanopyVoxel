@@ -5,7 +5,7 @@ from renderer.camera import Camera
 
 
 class FlyingCamera(Camera):
-    def __init__(self, app, position=(0, 150, 0), yaw=-90, pitch=0, speed=0.01, sensitivity=0.004,
+    def __init__(self, app, position=(0, 150, 0), yaw=-90, pitch=0, speed=0.005, sensitivity=0.004,
                  resolution=glm.vec2(1600, 900)):
         super().__init__(position, yaw, pitch, 50, resolution)
 

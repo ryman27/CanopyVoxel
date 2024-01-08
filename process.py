@@ -6,7 +6,7 @@ qsm_mesh_file_name = 'qsm.ply'
 
 if __name__ == "__main__":
     print("Load a ply point cloud, quantize it to a voxel grid, and save it to disk.")
-    pcd = o3d.io.read_point_cloud("pointcloud.ply")
+    pcd = o3d.io.read_point_cloud(point_cloud_file_name)
 
     # Get the point cloud data as a 3D NumPy array
     point_cloud = np.column_stack((pcd.points, pcd.colors))
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     point_cloud_size = np.max(point_cloud[:, :3], axis=0) - np.min(point_cloud[:, :3], axis=0)
 
-    voxel_size_proportion = 0.005
+    voxel_size_proportion = 0.001
 
     voxel_size = np.max(point_cloud_size) * voxel_size_proportion
 
