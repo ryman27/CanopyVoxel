@@ -1,21 +1,25 @@
 import numpy as np
-import open3d as o3d
+from pyntcloud import PyntCloud
+from tqdm import tqdm
 
 point_cloud_file_name = 'pointcloud_rotated.ply'
 qsm_mesh_file_name = 'qsm.ply'
 
 if __name__ == "__main__":
     print("Load a ply point cloud, quantize it to a voxel grid, and save it to disk.")
-    pcd = o3d.io.read_point_cloud(point_cloud_file_name)
+    pynt_cloud = PyntCloud.from_file(point_cloud_file_name)
 
     # Get the point cloud data as a 3D NumPy array
-    point_cloud = np.column_stack((pcd.points, pcd.colors))
+    points = pynt_cloud.points[['x', 'y', 'z']].values
+    colors = pynt_cloud.points[['red', 'green', 'blue']].values / 255.0  # Normalize color values
+
+    point_cloud = np.column_stack((points, colors))
 
     print("Points loaded")
 
-    point_cloud_size = np.max(point_cloud[:, :3], axis=0) - np.min(point_cloud[:, :3], axis=0)
+    point_cloud_size = np.max(points, axis=0) - np.min(points, axis=0)
 
-    voxel_size_proportion = 0.001
+    voxel_size_proportion = 0.01  # Make this smaller to increase the resolution of the voxel grid. Make it larger to decrease the resolution. 0.01 is a good starting point.
 
     voxel_size = np.max(point_cloud_size) * voxel_size_proportion
 
@@ -29,7 +33,8 @@ if __name__ == "__main__":
     # 0,1,2 is RGB info; 3 is count; 4 is relative density
     voxel_grid = np.zeros((grid_dimensions[0], grid_dimensions[1], grid_dimensions[2], 5))
 
-    for point in point_cloud:
+    # Assuming point_cloud is a list or iterable of points
+    for point in tqdm(point_cloud, desc="Processing Points"):
         # Calculate the voxel index for each point
         voxel_index = ((point[:3] - min_bound) / voxel_size).astype(int)
 
@@ -53,3 +58,5 @@ if __name__ == "__main__":
     voxel_grid[..., 4] = np.minimum(voxel_grid[..., 3] / percentile_90, 1)
 
     np.save("large-data.grid", voxel_grid)
+
+    print("Voxel grid saved")

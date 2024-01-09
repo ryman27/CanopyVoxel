@@ -3,7 +3,7 @@ import sys
 
 import numpy as np
 
-import renderer
+import NewRenderer as renderer
 
 if __name__ == "__main__":
     print("Load a voxel grid, perform basic operations, and render it.")
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     # combined_mask = density_mask  & bgri_mask & rgri_mask & luminosity_mask & color_balance_mask & green_mask # & blue_mask
     combined_mask = density_mask
 
-    #combined_mask = density_mask & bgri_mask
+    # combined_mask = density_mask & bgri_mask
 
-    xyz_rgba_voxel_grid = voxel_grid[:, :, :, [0, 1, 2]] * 255 * combined_mask[..., np.newaxis]
+    xyz_rgba_voxel_grid = voxel_grid[:, :, :, [0, 1, 2]] * combined_mask[..., np.newaxis]
 
     renderer.render_3d_array(xyz_rgba_voxel_grid)
